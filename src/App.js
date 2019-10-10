@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Typography, Grid, List, ListItem, ListItemIcon, ListItemText, Checkbox, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import logo from './logo.svg';
 import './App.css';
 
 const useStyles = makeStyles(theme => ({
@@ -98,15 +97,16 @@ export default function TransferList() {
   return (
     <div className="App">
     <Grid container className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
+      <img src={require('./img/Logo.png')} className="App-logo" alt="logo" />
       <Typography variant="h4" gutterBottom>
       This is a simple program to simplify our draw demands
       </Typography>
-      <Button variant="contained" href="#contained-buttons">
-      Click to Draw
-      </Button>
-    
-    <Grid container spacing={2} justify="center" alignItems="center" className={classes.root}>
+
+      <Grid item lg={4}>
+Select Game
+      </Grid>
+      <Grid item lg={4}>
+      <Grid container spacing={2} justify="center" alignItems="center" className={classes.root}>
       <Grid item>{customList(left)}</Grid>
       <Grid item>
         <Grid container direction="column" alignItems="center">
@@ -154,6 +154,15 @@ export default function TransferList() {
       </Grid>
       <Grid item>{customList(right)}</Grid>
     </Grid>
+      </Grid>
+      <Grid item lg={4}>
+        <Button variant="contained" href="#contained-buttons">
+        Click to Draw
+        </Button>
+      </Grid>
+      
+    
+    
     </Grid>  
     </div>
   );

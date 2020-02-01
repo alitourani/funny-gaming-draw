@@ -37,7 +37,8 @@ class GameDraw extends Component {
 
   calculateTeams = classes => {
     const tempArray = this.state.players;
-    let currentIndex = tempArray.length;
+    let currentIndex = tempArray.length,
+      randomIndex;
     let teams = [this.state.numberOfTeams];
     let teamArrayIndex = 0;
     // Hash Array

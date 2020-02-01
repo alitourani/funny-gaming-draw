@@ -6,7 +6,10 @@ import {
   Stepper,
   Typography,
   Step,
-  StepLabel
+  StepLabel,
+  Select,
+  MenuItem,
+  Checkbox
 } from "@material-ui/core";
 // Icons
 import NavigateNext from "@material-ui/icons/NavigateNext";
@@ -26,32 +29,73 @@ function getStepContent(step) {
       return (
         <Grid container>
           <Grid item lg={6}>
-            Number of Teams
+            Select Game
           </Grid>
           <Grid item lg={6}>
-            <TextField id="standard-basic" label="Standard" />
+            <Select value={0}>
+              {config.gameList.map((game, index) => (
+                <MenuItem key={index} value={10}>
+                  {game}
+                </MenuItem>
+              ))}
+            </Select>
           </Grid>
           <Grid item lg={6}>
-            Players
+            Select Number of Teams
           </Grid>
           <Grid item lg={6}>
-            <TextField id="standard-basic" label="Standard" />
+            <TextField label="Requires a number" />
           </Grid>
         </Grid>
       );
     case 1:
       return config.participantsList.map((player, index) => (
-        <Typography>{player}</Typography>
+        <Grid container>
+          <Grid item lg={6}>
+            <Checkbox
+              checked={true}
+              value="primary"
+              inputProps={{ "aria-label": "primary checkbox" }}
+            />
+          </Grid>
+          <Grid item lg={6}>
+            <Typography>{player}</Typography>
+          </Grid>
+        </Grid>
       ));
     case 2:
-      return <Button href="#contained-buttons">Click to Draw</Button>;
+      return (
+        <Grid container>
+          <Grid item lg={12}>
+            Summary
+          </Grid>
+          <Grid item lg={4}>
+            Players:
+          </Grid>
+          <Grid item lg={8}>
+            Sample
+          </Grid>
+          <Grid item lg={4}>
+            Selected Game:
+          </Grid>
+          <Grid item lg={8}>
+            Sample
+          </Grid>
+          <Grid item lg={4}>
+            Number of Teams:
+          </Grid>
+          <Grid item lg={8}>
+            Sample
+          </Grid>
+        </Grid>
+      );
     default:
       return "Unknown step!";
   }
 }
 
 export default function GameDraw() {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep, selectedGame] = React.useState(0);
   const steps = getSteps();
 
   const handleNext = () => {
@@ -68,7 +112,6 @@ export default function GameDraw() {
 
   return (
     <div className="App">
-      {console.log("Hi", config)}
       <Grid container className="App-header">
         <Grid item lg={12}>
           <img
@@ -78,12 +121,15 @@ export default function GameDraw() {
           />
         </Grid>
         <Grid item lg={12}>
-          <Stepper activeStep={activeStep}>
+          <Stepper
+            activeStep={activeStep}
+            style={{ backgroundColor: "transparent" }}
+          >
             {steps.map((label, index) => {
               const stepProps = {};
               const labelProps = {};
               return (
-                <Step key={label} {...stepProps}>
+                <Step key={index} {...stepProps}>
                   <StepLabel {...labelProps}>{label}</StepLabel>
                 </Step>
               );
@@ -92,9 +138,7 @@ export default function GameDraw() {
           <div>
             {activeStep === steps.length ? (
               <div>
-                <Typography>
-                  All steps completed - you&apos;re finished
-                </Typography>
+                <Typography>Results are here</Typography>
                 <Button onClick={handleReset}>
                   <RotateLeft />
                 </Button>
@@ -106,11 +150,7 @@ export default function GameDraw() {
                   <Button disabled={activeStep === 0} onClick={handleBack}>
                     <NavigateBefore />
                   </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                  >
+                  <Button onClick={handleNext}>
                     {activeStep === steps.length - 1 ? (
                       <AssignmentTurnedInIcon />
                     ) : (

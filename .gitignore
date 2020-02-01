@@ -21,3 +21,4 @@ yarn-error.log*
 
 # files
 config.js
+src/img/player_*

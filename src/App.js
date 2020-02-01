@@ -9,7 +9,8 @@ import {
   StepLabel,
   Select,
   MenuItem,
-  Checkbox
+  Avatar,
+  Chip
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 // Icons
@@ -23,61 +24,110 @@ const config = require("./config");
 class GameDraw extends Component {
   state = {
     activeStep: 0,
-    numberOfTeams: 1,
+    numberOfTeams: 2,
     gameList: config.gameList,
     candidates: config.participantsList,
     selectedGame: 0,
-    players: []
+    players: config.participantsList
   };
 
   getSteps() {
     return ["Initiallization", "Choose Players", "Finalize"];
   }
 
+  calculateTeams = classes => {
+    const tempArray = this.state.players;
+    let currentIndex = tempArray.length;
+    let teams = [this.state.numberOfTeams];
+    let teamArrayIndex = 0;
+    // Hash Array
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      // Swap elements
+      teams[teamArrayIndex].push(tempArray[currentIndex]);
+      teamArrayIndex++;
+      if (teamArrayIndex === tempArray.length) teamArrayIndex = 0;
+    }
+    return (
+      <Typography className={classes.Typographies}>Selected Game:</Typography>
+    );
+  };
+
   changeSelectGame = event => {
     this.setState({ selectedGame: event.target.value });
   };
 
+  changeTeamNumbers = event => {
+    this.setState({ numberOfTeams: event.target.value });
+  };
+
+  dismissPlayer = whomToDelete => () => {
+    const playerList = this.state.candidates;
+    playerList.map(item => {
+      if (whomToDelete === item) {
+        const chipToDelete = playerList.indexOf(item);
+        playerList.splice(chipToDelete, 1);
+      }
+    }, this.setState({ players: playerList }));
+  };
+
   getStepContent(step) {
+    const classes = this.props.classes;
     switch (step) {
       case 0:
         return (
           <Grid container>
             <Grid item xs={12} lg={6}>
-              Selected Game:
+              <Typography className={classes.Typographies}>
+                Selected Game:
+              </Typography>
             </Grid>
             <Grid item xs={12} lg={6}>
               <Select
                 variant="outlined"
                 value={this.state.selectedGame}
                 onChange={this.changeSelectGame}
+                className={classes.Selects}
               >
                 {this.state.gameList.map((game, index) => (
-                  <MenuItem key={index} value={10}>
+                  <MenuItem key={index} value={index}>
                     {game}
                   </MenuItem>
                 ))}
               </Select>
             </Grid>
             <Grid item xs={12} lg={6}>
-              Number of Teams:
+              <Typography className={classes.Typographies}>
+                Number of Teams:
+              </Typography>
             </Grid>
             <Grid item xs={12} lg={6}>
-              <TextField label="Enter a number" type="number" />
+              <TextField
+                label="Enter a number"
+                type="number"
+                className={classes.TextBoxes}
+                value={this.state.numberOfTeams}
+                onChange={this.changeTeamNumbers}
+              />
             </Grid>
           </Grid>
         );
       case 1:
         return this.state.candidates.map((player, index) => (
-          <Grid container>
-            <Grid item xs={12} lg={6}>
-              <Checkbox
-                value="primary"
-                inputProps={{ "aria-label": "primary checkbox" }}
+          <Grid container key={index}>
+            <Grid item xs={12} lg={12}>
+              <Chip
+                avatar={
+                  <Avatar
+                    alt={player}
+                    src={require(`./img/player_${player}.png`)}
+                  />
+                }
+                label={player}
+                className={classes.Chips}
+                onDelete={this.dismissPlayer(player)}
               />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <Typography>{player}</Typography>
             </Grid>
           </Grid>
         ));
@@ -85,25 +135,45 @@ class GameDraw extends Component {
         return (
           <Grid container>
             <Grid item lg={12}>
-              Summary
+              <Typography
+                variant="h4"
+                className={classes.Typographies}
+                style={{ marginBottom: "2vh" }}
+              >
+                Summary
+              </Typography>
             </Grid>
             <Grid item lg={4}>
-              Players:
+              <Typography variant="h6" className={classes.Typographies}>
+                Players:
+              </Typography>
             </Grid>
             <Grid item lg={8}>
-              {this.state.players}
+              <Typography className={classes.Typographies}>
+                {this.state.players.map((player, index) => (
+                  <Typography key={index}>{player}</Typography>
+                ))}
+              </Typography>
             </Grid>
             <Grid item lg={4}>
-              Selected Game:
+              <Typography variant="h6" className={classes.Typographies}>
+                Selected Game:
+              </Typography>
             </Grid>
             <Grid item lg={8}>
-              {this.state.selectedGame}
+              <Typography variant="overline" className={classes.Typographies}>
+                {config.gameList[this.state.selectedGame]}
+              </Typography>
             </Grid>
             <Grid item lg={4}>
-              Number of Teams:
+              <Typography variant="h6" className={classes.Typographies}>
+                Number of Teams:
+              </Typography>
             </Grid>
             <Grid item lg={8}>
-              {this.state.numberOfTeams}
+              <Typography variant="overline" className={classes.Typographies}>
+                {this.state.numberOfTeams}
+              </Typography>
             </Grid>
           </Grid>
         );
@@ -116,7 +186,8 @@ class GameDraw extends Component {
     const steps = this.getSteps();
     const classes = this.props.classes;
     const handleNext = () => {
-      this.setState({ activeStep: this.state.activeStep + 1 });
+      if (this.state.numberOfTeams > 1)
+        this.setState({ activeStep: this.state.activeStep + 1 });
     };
     const handleBack = () => {
       this.setState({ activeStep: this.state.activeStep - 1 });
@@ -153,9 +224,16 @@ class GameDraw extends Component {
             <div>
               {this.state.activeStep === steps.length ? (
                 <div>
-                  <Typography>Results are here</Typography>
+                  <Typography
+                    variant="h4"
+                    className={classes.Typographies}
+                    style={{ marginBottom: "2vh" }}
+                  >
+                    Draw Results
+                  </Typography>
+                  {this.calculateTeams(classes)}
                   <Button onClick={handleReset}>
-                    <RotateLeft />
+                    <RotateLeft className={classes.Icon} />
                   </Button>
                 </div>
               ) : (
@@ -168,13 +246,16 @@ class GameDraw extends Component {
                       disabled={this.state.activeStep === 0}
                       onClick={handleBack}
                     >
-                      <NavigateBefore />
+                      <NavigateBefore className={classes.Icon} />
                     </Button>
-                    <Button onClick={handleNext}>
+                    <Button
+                      onClick={handleNext}
+                      disabled={this.state.numberOfTeams < 2 ? true : false}
+                    >
                       {this.state.activeStep === steps.length - 1 ? (
-                        <AssignmentTurnedInIcon />
+                        <AssignmentTurnedInIcon className={classes.Icon} />
                       ) : (
-                        <NavigateNext />
+                        <NavigateNext className={classes.Icon} />
                       )}
                     </Button>
                   </div>

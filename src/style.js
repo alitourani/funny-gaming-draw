@@ -1,11 +1,11 @@
-const drawerWidth = 270;
+const colorOrange = "#FFCA28";
 
 export default theme => ({
   App: {
     textAlign: "center"
   },
   AppLogo: {
-    marginTop: "10vh"
+    marginBottom: "2vh"
   },
   AppHeader: {
     backgroundColor: "#282c34",
@@ -13,11 +13,29 @@ export default theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    fontSize: "14px",
-    color: "white"
+    fontSize: "14px"
   },
   AppLink: {
     color: "#09d3ac"
+  },
+  Typographies: {
+    color: colorOrange
+  },
+  Selects: {
+    width: "100%",
+    color: colorOrange,
+    borderColor: colorOrange
+  },
+  TextBoxes: {
+    width: "100%"
+  },
+  Chips: {
+    width: "70%",
+    backgroundColor: colorOrange,
+    marginTop: "1vh"
+  },
+  Icon: {
+    marginTop: "3vh",
+    color: "#FFF"
   }
 });

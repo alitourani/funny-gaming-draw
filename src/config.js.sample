@@ -1,0 +1,8 @@
+// Configuration
+const config = {
+  participantsList: [
+    "Sample"
+  ]
+};
+
+module.exports = config;

@@ -8,7 +8,7 @@ export default theme => ({
     marginBottom: "2vh"
   },
   AppHeader: {
-    backgroundColor: "#282c34",
+    backgroundColor: "#F5F5F5",
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
@@ -36,7 +36,7 @@ export default theme => ({
   },
   Icon: {
     marginTop: "3vh",
-    color: "#FFF"
+    color: "#616161"
   },
   Card: {
     maxWidth: 300,

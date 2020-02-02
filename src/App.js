@@ -10,7 +10,9 @@ import {
   Select,
   MenuItem,
   Avatar,
-  Chip
+  Chip,
+  Card,
+  CardMedia
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 // Icons
@@ -37,21 +39,51 @@ class GameDraw extends Component {
 
   calculateTeams = classes => {
     const tempArray = this.state.players;
-    let currentIndex = tempArray.length,
-      randomIndex;
-    let teams = [this.state.numberOfTeams];
-    let teamArrayIndex = 0;
-    // Hash Array
-    while (currentIndex !== 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      // Swap elements
-      teams[teamArrayIndex].push(tempArray[currentIndex]);
-      teamArrayIndex++;
-      if (teamArrayIndex === tempArray.length) teamArrayIndex = 0;
+    let teamIndex = 0;
+    // Define Teams
+    let teams = {};
+    for (let i = 0; i < this.state.numberOfTeams; i++) {
+      teams[`Team${i}`] = [];
+    }
+    // Fetch random players
+    while (tempArray.length > 0) {
+      let selectedIndex = Math.floor(Math.random() * tempArray.length);
+      let item = tempArray[selectedIndex];
+      teams[`Team${teamIndex}`].push(item);
+      tempArray.splice(selectedIndex, 1);
+      teamIndex++;
+      if (teamIndex === this.state.numberOfTeams) teamIndex = 0;
     }
     return (
-      <Typography className={classes.Typographies}>Selected Game:</Typography>
+      <Grid container>
+        {Object.keys(teams).map(function(team, index) {
+          return (
+            <Grid container key={index}>
+              <Grid item xs={12} lg={12}>
+                <Typography className={classes.Typographies} variant="h5">
+                  {team}:
+                </Typography>
+              </Grid>
+              <Grid item xs={12} lg={12}>
+                <Grid container>
+                  {teams[team].map((member, memberIndex) => (
+                    <Grid item xs={2} lg={2}>
+                      <Card className={classes.Card}>
+                        <CardMedia
+                          className={classes.CardImage}
+                          image={require(`./img/player_${member}.png`)}
+                          title={member}
+                        />
+                        <Typography key={memberIndex}>{member}</Typography>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
+            </Grid>
+          );
+        })}
+      </Grid>
     );
   };
 
@@ -135,7 +167,7 @@ class GameDraw extends Component {
       case 2:
         return (
           <Grid container>
-            <Grid item lg={12}>
+            <Grid item lg={12} xs={12}>
               <Typography
                 variant="h4"
                 className={classes.Typographies}
@@ -144,34 +176,34 @@ class GameDraw extends Component {
                 Summary
               </Typography>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={12}>
               <Typography variant="h6" className={classes.Typographies}>
                 Players:
               </Typography>
             </Grid>
-            <Grid item lg={8}>
-              <Typography className={classes.Typographies}>
+            <Grid item lg={8} xs={12}>
+              <div className={classes.Typographies}>
                 {this.state.players.map((player, index) => (
                   <Typography key={index}>{player}</Typography>
                 ))}
-              </Typography>
+              </div>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={4}>
               <Typography variant="h6" className={classes.Typographies}>
                 Selected Game:
               </Typography>
             </Grid>
-            <Grid item lg={8}>
+            <Grid item lg={8} xs={8}>
               <Typography variant="overline" className={classes.Typographies}>
                 {config.gameList[this.state.selectedGame]}
               </Typography>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item lg={4} xs={4}>
               <Typography variant="h6" className={classes.Typographies}>
                 Number of Teams:
               </Typography>
             </Grid>
-            <Grid item lg={8}>
+            <Grid item lg={8} xs={8}>
               <Typography variant="overline" className={classes.Typographies}>
                 {this.state.numberOfTeams}
               </Typography>
@@ -194,7 +226,14 @@ class GameDraw extends Component {
       this.setState({ activeStep: this.state.activeStep - 1 });
     };
     const handleReset = () => {
-      this.setState({ activeStep: 0 });
+      this.setState({
+        activeStep: 0,
+        numberOfTeams: 2,
+        gameList: config.gameList,
+        candidates: config.participantsList,
+        selectedGame: 0,
+        players: config.participantsList
+      });
     };
 
     return (
@@ -239,9 +278,7 @@ class GameDraw extends Component {
                 </div>
               ) : (
                 <div>
-                  <Typography>
-                    {this.getStepContent(this.state.activeStep)}
-                  </Typography>
+                  <div>{this.getStepContent(this.state.activeStep)}</div>
                   <div>
                     <Button
                       disabled={this.state.activeStep === 0}

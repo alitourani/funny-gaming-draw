@@ -37,5 +37,12 @@ export default theme => ({
   Icon: {
     marginTop: "3vh",
     color: "#FFF"
+  },
+  Card: {
+    maxWidth: 300,
+    margin: "1vh"
+  },
+  CardImage: {
+    height: 120
   }
 });

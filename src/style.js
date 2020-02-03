@@ -1,4 +1,5 @@
-const colorOrange = "#FFCA28";
+const themeColorMain = "#424242";
+const themeColorSecond = "#9E9E9E";
 
 export default theme => ({
   App: {
@@ -19,23 +20,24 @@ export default theme => ({
     color: "#09d3ac"
   },
   Typographies: {
-    color: colorOrange
+    color: themeColorMain
   },
   Selects: {
     width: "100%",
-    color: colorOrange,
-    borderColor: colorOrange
+    color: themeColorMain,
+    borderColor: themeColorMain
   },
   TextBoxes: {
-    width: "100%"
+    width: "97%",
+    padding: "1vh"
   },
   Chips: {
     width: "70%",
-    backgroundColor: colorOrange,
+    backgroundColor: themeColorSecond,
     marginTop: "1vh"
   },
   Icon: {
-    marginTop: "3vh",
+    marginTop: "1vh",
     color: "#616161"
   },
   Card: {
@@ -44,5 +46,8 @@ export default theme => ({
   },
   CardImage: {
     height: 120
+  },
+  GridItems: {
+    padding: "1vh"
   }
 });

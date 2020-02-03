@@ -12,7 +12,8 @@ import {
   Avatar,
   Chip,
   Card,
-  CardMedia
+  CardMedia,
+  Divider
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 // Icons
@@ -112,11 +113,11 @@ class GameDraw extends Component {
         return (
           <Grid container>
             <Grid item xs={12} lg={6}>
-              <Typography className={classes.Typographies}>
+              <Typography variant="h6" className={classes.Typographies}>
                 Selected Game:
               </Typography>
             </Grid>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={6} className={classes.GridItems}>
               <Select
                 variant="outlined"
                 value={this.state.selectedGame}
@@ -130,14 +131,14 @@ class GameDraw extends Component {
                 ))}
               </Select>
             </Grid>
-            <Grid item xs={12} lg={6}>
-              <Typography className={classes.Typographies}>
+            <Grid item xs={12} lg={6} className={classes.GridItems}>
+              <Typography variant="h6" className={classes.Typographies}>
                 Number of Teams:
               </Typography>
             </Grid>
             <Grid item xs={12} lg={6}>
               <TextField
-                label="Enter a number"
+                variant="outlined"
                 type="number"
                 className={classes.TextBoxes}
                 value={this.state.numberOfTeams}
@@ -168,32 +169,32 @@ class GameDraw extends Component {
         return (
           <Grid container>
             <Grid item lg={12} xs={12}>
-              <Typography
-                variant="h4"
-                className={classes.Typographies}
-                style={{ marginBottom: "2vh" }}
-              >
+              <Typography variant="h4" className={classes.Typographies}>
                 Summary
               </Typography>
             </Grid>
-            <Grid item lg={4} xs={12}>
+            <Grid item lg={4} xs={12} className={classes.GridItems}>
               <Typography variant="h6" className={classes.Typographies}>
                 Players:
               </Typography>
             </Grid>
-            <Grid item lg={8} xs={12}>
+            <Grid item lg={8} xs={12} className={classes.GridItems}>
               <div className={classes.Typographies}>
                 {this.state.players.map((player, index) => (
-                  <Typography key={index}>{player}</Typography>
+                  <div>
+                    <Typography variant="overline" key={index}>
+                      {player}
+                    </Typography>
+                  </div>
                 ))}
               </div>
             </Grid>
-            <Grid item lg={4} xs={4}>
+            <Grid item lg={4} xs={4} className={classes.GridItems}>
               <Typography variant="h6" className={classes.Typographies}>
                 Selected Game:
               </Typography>
             </Grid>
-            <Grid item lg={8} xs={8}>
+            <Grid item lg={8} xs={8} className={classes.GridItems}>
               <Typography variant="overline" className={classes.Typographies}>
                 {config.gameList[this.state.selectedGame]}
               </Typography>
@@ -272,6 +273,7 @@ class GameDraw extends Component {
                     Draw Results
                   </Typography>
                   {this.calculateTeams(classes)}
+                  <Divider style={{ marginTop: "1vh" }} />
                   <Button onClick={handleReset}>
                     <RotateLeft className={classes.Icon} />
                   </Button>
@@ -280,6 +282,7 @@ class GameDraw extends Component {
                 <div>
                   <div>{this.getStepContent(this.state.activeStep)}</div>
                   <div>
+                    <Divider style={{ marginTop: "1vh" }} />
                     <Button
                       disabled={this.state.activeStep === 0}
                       onClick={handleBack}

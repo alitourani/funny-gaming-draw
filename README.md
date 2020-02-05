@@ -8,7 +8,7 @@ Easily find a teammate for group games via a random draw!
 
 In case you are a little bit familiar with programming, follow the below steps:
 
-1. Clone the repository and run the project using **npm i** command
+1. Clone the repository and run the project using **npm install** command
 
 2. There is a **config.js.sample** file in the **src** directory. Copy that file and rename it to **config.js** (the exact name is required)
 

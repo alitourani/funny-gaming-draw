@@ -11,9 +11,8 @@ import {
   MenuItem,
   Avatar,
   Chip,
-  Card,
-  CardMedia,
-  Divider
+  Divider,
+  Grow
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 // Icons
@@ -68,16 +67,20 @@ class GameDraw extends Component {
               <Grid item xs={12} lg={12}>
                 <Grid container>
                   {teams[team].map((member, memberIndex) => (
-                    <Grid item xs={2} lg={2}>
-                      <Card className={classes.Card}>
-                        <CardMedia
+                    <Grow
+                      in={true}
+                      style={{
+                        transitionDelay: `${Math.floor(Math.random() * 200)}ms`
+                      }}
+                    >
+                      <Grid item xs={2} lg={2} key={memberIndex}>
+                        <img
+                          src={require(`./img/player_${member}.png`)}
                           className={classes.CardImage}
-                          image={require(`./img/player_${member}.png`)}
-                          title={member}
+                          alt={member}
                         />
-                        <Typography key={memberIndex}>{member}</Typography>
-                      </Card>
-                    </Grid>
+                      </Grid>
+                    </Grow>
                   ))}
                 </Grid>
               </Grid>

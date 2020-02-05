@@ -45,7 +45,7 @@ export default theme => ({
     margin: "1vh"
   },
   CardImage: {
-    height: 120
+    width: 200
   },
   GridItems: {
     padding: "1vh"

@@ -11,8 +11,6 @@ import {
   MenuItem,
   Avatar,
   Chip,
-  Card,
-  CardMedia,
   Divider
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
@@ -69,14 +67,11 @@ class GameDraw extends Component {
                 <Grid container>
                   {teams[team].map((member, memberIndex) => (
                     <Grid item xs={2} lg={2}>
-                      <Card className={classes.Card}>
-                        <CardMedia
-                          className={classes.CardImage}
-                          image={require(`./img/player_${member}.png`)}
-                          title={member}
-                        />
-                        <Typography key={memberIndex}>{member}</Typography>
-                      </Card>
+                      <img
+                        src={require(`./img/player_${member}.png`)}
+                        className={classes.CardImage}
+                        alt={member}
+                      />
                     </Grid>
                   ))}
                 </Grid>

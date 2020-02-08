@@ -69,11 +69,12 @@ class GameDraw extends Component {
                   {teams[team].map((member, memberIndex) => (
                     <Grow
                       in={true}
+                      key={memberIndex}
                       style={{
                         transitionDelay: `${Math.floor(Math.random() * 200)}ms`
                       }}
                     >
-                      <Grid item xs={2} lg={2} key={memberIndex}>
+                      <Grid item xs={2} lg={2}>
                         <img
                           src={require(`./img/player_${member}.png`)}
                           className={classes.CardImage}
@@ -172,7 +173,7 @@ class GameDraw extends Component {
         return (
           <Grid container>
             <Grid item lg={12} xs={12}>
-              <Typography variant="h4" className={classes.Typographies}>
+              <Typography variant="h4" className={classes.HeadTypographies}>
                 Summary
               </Typography>
             </Grid>
@@ -184,10 +185,8 @@ class GameDraw extends Component {
             <Grid item lg={8} xs={12} className={classes.GridItems}>
               <div className={classes.Typographies}>
                 {this.state.players.map((player, index) => (
-                  <div>
-                    <Typography variant="overline" key={index}>
-                      {player}
-                    </Typography>
+                  <div key={index}>
+                    <Typography variant="overline">{player}</Typography>
                   </div>
                 ))}
               </div>
@@ -268,11 +267,7 @@ class GameDraw extends Component {
             <div>
               {this.state.activeStep === steps.length ? (
                 <div>
-                  <Typography
-                    variant="h4"
-                    className={classes.Typographies}
-                    style={{ marginBottom: "2vh" }}
-                  >
+                  <Typography variant="h4" className={classes.HeadTypographies}>
                     Draw Results
                   </Typography>
                   {this.calculateTeams(classes)}

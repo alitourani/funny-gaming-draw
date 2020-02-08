@@ -22,6 +22,13 @@ export default theme => ({
   Typographies: {
     color: themeColorMain
   },
+  HeadTypographies: {
+    backgroundColor: "#303F9F",
+    padding: "1vh",
+    margin: "1vh",
+    color: "#FFF",
+    borderRadius: "1vh"
+  },
   Selects: {
     width: "100%",
     color: themeColorMain,

@@ -15,6 +15,7 @@ import {
   Grow
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
+import Typical from 'react-typical';
 // Icons
 import NavigateNext from "@material-ui/icons/NavigateNext";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
@@ -56,7 +57,7 @@ class GameDraw extends Component {
     }
     return (
       <Grid container>
-        {Object.keys(teams).map(function(team, index) {
+        {Object.keys(teams).map(function (team, index) {
           return (
             <Grid container key={index}>
               <Grid item xs={12} lg={12}>
@@ -118,7 +119,7 @@ class GameDraw extends Component {
           <Grid container>
             <Grid item xs={12} lg={6}>
               <Typography variant="h6" className={classes.Typographies}>
-                Selected Game:
+                Select your game:
               </Typography>
             </Grid>
             <Grid item xs={12} lg={6} className={classes.GridItems}>
@@ -137,13 +138,14 @@ class GameDraw extends Component {
             </Grid>
             <Grid item xs={12} lg={6} className={classes.GridItems}>
               <Typography variant="h6" className={classes.Typographies}>
-                Number of Teams:
+                Enter the number of teams:
               </Typography>
             </Grid>
             <Grid item xs={12} lg={6}>
               <TextField
                 variant="outlined"
                 type="number"
+                InputProps={{ inputProps: { min: 0, max: 10 } }}
                 className={classes.TextBoxes}
                 value={this.state.numberOfTeams}
                 onChange={this.changeTeamNumbers}
@@ -221,13 +223,17 @@ class GameDraw extends Component {
   render() {
     const steps = this.getSteps();
     const classes = this.props.classes;
+
+    // Handle Next-step button
     const handleNext = () => {
       if (this.state.numberOfTeams > 1)
         this.setState({ activeStep: this.state.activeStep + 1 });
     };
+    // Handle previous-step button
     const handleBack = () => {
       this.setState({ activeStep: this.state.activeStep - 1 });
     };
+    // Handle reset button
     const handleReset = () => {
       this.setState({
         activeStep: 0,
@@ -240,14 +246,23 @@ class GameDraw extends Component {
     };
 
     return (
-      <div className={classes.App}>
+      <div className={classes.mainContainer}>
         <Grid container className={classes.AppHeader}>
+          <Typography variant="h6" className={classes.headerAnimationText}>
+            <Typical
+              steps={['Your teammates in Foosball', 2000, 'Your teammates in Arcade Games', 3000, 'Your teammates in Counter Strike', 3000]}
+              loop={Infinity}
+              wrapper="p"
+            />
+          </Typography>
+
           <Grid item lg={12}>
             <img
               src={require("./img/Logo.png")}
               className={classes.AppLogo}
               alt="logo"
             />
+
           </Grid>
           <Grid item lg={12}>
             <Stepper
@@ -277,29 +292,29 @@ class GameDraw extends Component {
                   </Button>
                 </div>
               ) : (
-                <div>
-                  <div>{this.getStepContent(this.state.activeStep)}</div>
                   <div>
-                    <Divider style={{ marginTop: "1vh" }} />
-                    <Button
-                      disabled={this.state.activeStep === 0}
-                      onClick={handleBack}
-                    >
-                      <NavigateBefore className={classes.Icon} />
-                    </Button>
-                    <Button
-                      onClick={handleNext}
-                      disabled={this.state.numberOfTeams < 2 ? true : false}
-                    >
-                      {this.state.activeStep === steps.length - 1 ? (
-                        <AssignmentTurnedInIcon className={classes.Icon} />
-                      ) : (
-                        <NavigateNext className={classes.Icon} />
-                      )}
-                    </Button>
+                    <div>{this.getStepContent(this.state.activeStep)}</div>
+                    <div>
+                      <Divider style={{ marginTop: "1vh" }} />
+                      <Button
+                        disabled={this.state.activeStep === 0}
+                        onClick={handleBack}
+                      >
+                        <NavigateBefore className={classes.Icon} />
+                      </Button>
+                      <Button
+                        onClick={handleNext}
+                        disabled={this.state.numberOfTeams < 2 ? true : false}
+                      >
+                        {this.state.activeStep === steps.length - 1 ? (
+                          <AssignmentTurnedInIcon className={classes.Icon} />
+                        ) : (
+                            <NavigateNext className={classes.Icon} />
+                          )}
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
           </Grid>
         </Grid>

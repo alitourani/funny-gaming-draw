@@ -2,19 +2,23 @@ const themeColorMain = "#424242";
 const themeColorSecond = "#9E9E9E";
 
 export default theme => ({
-  App: {
-    textAlign: "center"
+  mainContainer: {
+    textAlign: "center",
+    backgroundColor: "#F5F5F5",
+    padding: "2rem"
   },
   AppLogo: {
-    marginBottom: "2vh"
+    marginBottom: "2rem"
   },
   AppHeader: {
-    backgroundColor: "#F5F5F5",
-    minHeight: "100vh",
+    minHeight: "5rem",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     fontSize: "14px"
+  },
+  headerAnimationText: {
+    color: "#536DFE",
   },
   AppLink: {
     color: "#09d3ac"

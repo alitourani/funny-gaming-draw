@@ -53,7 +53,7 @@ class GameDraw extends Component {
       teams[`Team${teamIndex}`].push(item);
       tempArray.splice(selectedIndex, 1);
       teamIndex++;
-      if (teamIndex === this.state.numberOfTeams) teamIndex = 0;
+      if (teamIndex > (this.state.numberOfTeams - 1)) teamIndex = 0;
     }
     return (
       <Grid container>

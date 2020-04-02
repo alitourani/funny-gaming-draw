@@ -48,6 +48,10 @@ class GameDraw extends Component {
     }
     // Fetch random players
     while (tempArray.length > 0) {
+      /* 
+      TODO: Wierd behavior: although config is read from config.js, by pulling from tempArray the config.participantsList value changes as well
+      console.log(config.participantsList, tempArray, this.state.players);
+      */
       let selectedIndex = Math.floor(Math.random() * tempArray.length);
       let item = tempArray[selectedIndex];
       teams[`Team${teamIndex}`].push(item);
@@ -244,25 +248,22 @@ class GameDraw extends Component {
         players: config.participantsList
       });
     };
-
     return (
       <div className={classes.mainContainer}>
         <Grid container className={classes.AppHeader}>
           <Typography variant="h6" className={classes.headerAnimationText}>
             <Typical
-              steps={['Your teammates in Foosball', 2000, 'Your teammates in Arcade Games', 3000, 'Your teammates in Counter Strike', 3000]}
+              steps={['Your teammates in Foosball', 2000, 'Your teammates in Arcade Games', 2000, 'Your teammates in Counter Strike', 2000]}
               loop={Infinity}
               wrapper="p"
             />
           </Typography>
-
           <Grid item lg={12}>
             <img
               src={require("./img/Logo.png")}
               className={classes.AppLogo}
               alt="logo"
             />
-
           </Grid>
           <Grid item lg={12}>
             <Stepper
